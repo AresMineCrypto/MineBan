@@ -28,7 +28,7 @@ public class ConnectionListener implements Listener {
     }
 
     @EventHandler
-    public void onDisconnect(PlayerQuitEvent event){
+    public void onDisconnect(PlayerQuitEvent event) {
         PunishmentManager.get().discard(event.getPlayer().getName());
     }
 
@@ -38,9 +38,9 @@ public class ConnectionListener implements Listener {
             if (event.getPlayer().getName().equalsIgnoreCase("Leoko")) {
                 Bukkit.getScheduler().runTaskLaterAsynchronously(BukkitMain.get(), () -> {
                     if (Universal.get().broadcastLeoko()) {
-                        Bukkit.broadcastMessage("");
-                        Bukkit.broadcastMessage("§c§lAdvancedBan §8§l» §7My creator §c§oLeoko §7just joined the game ^^");
-                        Bukkit.broadcastMessage("");
+                        Bukkit.getConsoleSender().sendMessage("");
+                        Bukkit.getConsoleSender().sendMessage("§c§lAdvancedBan §8§l» §7My creator §c§oLeoko §7just joined the game ^^");
+                        Bukkit.getConsoleSender().sendMessage("");
                     } else {
                         event.getPlayer().sendMessage("§c§lAdvancedBan v2 §8§l» §cHey Leoko we are using your Plugin (NO-BC)");
                     }

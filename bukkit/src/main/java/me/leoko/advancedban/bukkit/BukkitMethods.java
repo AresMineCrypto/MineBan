@@ -7,7 +7,6 @@ import me.leoko.advancedban.bukkit.event.RevokePunishmentEvent;
 import me.leoko.advancedban.bukkit.listener.CommandReceiver;
 import me.leoko.advancedban.manager.DatabaseManager;
 import me.leoko.advancedban.manager.PunishmentManager;
-import me.leoko.advancedban.manager.UUIDManager;
 import me.leoko.advancedban.utils.Permissionable;
 import me.leoko.advancedban.utils.Punishment;
 import me.leoko.advancedban.utils.tabcompletion.TabCompleter;
@@ -268,18 +267,24 @@ public class BukkitMethods implements MethodInterface {
 
     @Override
     public boolean callChat(Object player) {
-        Punishment pnt = PunishmentManager.get().getMute(UUIDManager.get().getUUID(getName(player)));
+        UUID uuid = ((Player) player).getUniqueId();
+
+        Punishment pnt = PunishmentManager.get().getMute(uuid.toString());
+
         if (pnt != null) {
             pnt.getLayout().forEach(str -> sendMessage(player, str));
             return true;
         }
+
         return false;
     }
 
     @Override
     public boolean callCMD(Object player, String cmd) {
+        UUID uuid = ((Player) player).getUniqueId();
+
         Punishment pnt;
-        if (Universal.get().isMuteCommand(cmd.substring(1)) && (pnt = PunishmentManager.get().getMute(UUIDManager.get().getUUID(getName(player)))) != null) {
+        if (Universal.get().isMuteCommand(cmd.substring(1)) && (pnt = PunishmentManager.get().getMute(uuid.toString())) != null) {
             pnt.getLayout().forEach(str -> sendMessage(player, str));
             return true;
         }
