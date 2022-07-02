@@ -24,7 +24,11 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -269,12 +273,15 @@ public class BukkitMethods implements MethodInterface {
     public boolean callChat(Object player) {
         UUID uuid = ((Player) player).getUniqueId();
 
-        Punishment pnt = PunishmentManager.get().getMute(uuid.toString());
+        System.out.println("Getting punishments for " + uuid.toString());
+        Punishment pnt = PunishmentManager.get().getMute(uuid.toString().replace("-", ""));
 
         if (pnt != null) {
             pnt.getLayout().forEach(str -> sendMessage(player, str));
+            System.out.println("USER IS PUNISHED");
             return true;
         }
+        System.out.println("USER IS NOT PUNISHED");
 
         return false;
     }
